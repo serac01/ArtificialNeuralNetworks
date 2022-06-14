@@ -1,4 +1,4 @@
-function [bestP,epochs,accuracy] = pointA()
+function pointC1()
     clc;
     clear all;
     close all;
@@ -7,22 +7,22 @@ function [bestP,epochs,accuracy] = pointA()
     IMG_RES = [25 25];
     letrasBW = zeros(IMG_RES(1) * IMG_RES(2), 30);
     counter=1;
-    nImages=5;
-    letrasTarget = zeros(6,30);
+    nImages=10;
+    letrasTarget = zeros(6,50*6);
     
     %% Ler e redimensionar as imagens e preparar os targets
     %circle
     for i=0:nImages-1
-        img = imread(sprintf('images\\start\\circle\\circle-start-%d.png', i));
+        img = imread(sprintf('images\\test\\circle\\circle-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
         letrasBW(:, counter+i) = reshape(binarizedImg, 1, []);
         letrasTarget(1,counter+i) =  1;
     end
     counter=counter+nImages;
-    %kite (5-9)
+    %kite
     for i=0:nImages-1
-        img = imread(sprintf('images\\start\\kite\\kite-start-%d.png', i));
+        img = imread(sprintf('images\\test\\kite\\kite-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
         letrasBW(:, counter+i) = reshape(binarizedImg, 1, []);
@@ -31,7 +31,7 @@ function [bestP,epochs,accuracy] = pointA()
     counter=counter+nImages;
     %parallelogram
     for i=0:nImages-1
-        img = imread(sprintf('images\\start\\parallelogram\\parallelogram-start-%d.png', i));
+        img = imread(sprintf('images\\test\\parallelogram\\parallelogram-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
         letrasBW(:, counter+i) = reshape(binarizedImg, 1, []);
@@ -40,7 +40,7 @@ function [bestP,epochs,accuracy] = pointA()
     counter=counter+nImages;
     %square
     for i=0:nImages-1
-        img = imread(sprintf('images\\start\\square\\square-start-%d.png', i));
+        img = imread(sprintf('images\\test\\square\\square-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
         letrasBW(:, counter+i) = reshape(binarizedImg, 1, []);
@@ -49,7 +49,7 @@ function [bestP,epochs,accuracy] = pointA()
     counter=counter+nImages;
     %trapezoid
     for i=0:nImages-1
-        img = imread(sprintf('images\\start\\trapezoid\\trapezoid-start-%d.png', i));
+        img = imread(sprintf('images\\test\\trapezoid\\trapezoid-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
         letrasBW(:, counter+i) = reshape(binarizedImg, 1, []);
@@ -58,23 +58,15 @@ function [bestP,epochs,accuracy] = pointA()
     counter=counter+nImages;
     %triangle
     for i=0:nImages-1
-        img = imread(sprintf('images\\start\\triangle\\triangle-start-%d.png', i));
+        img = imread(sprintf('images\\test\\triangle\\triangle-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
         letrasBW(:, counter+i) = reshape(binarizedImg, 1, []);
         letrasTarget(6,counter+i) =  1;
     end
 
-    %% Preparar e treinar rede
-    net = feedforwardnet([10]);
-    net.trainFcn = 'trainbfg';
-    net.layers{1}.transferFcn = 'tansig';
-    net.layers{2}.transferFcn = 'purelin';
-    net.divideFcn = 'dividerand';
-    net.divideParam.trainRatio = 1;
-    net.divideParam.valRatio = 0;
-    net.divideParam.testRatio = 0;
-    [net,tr] = train(net, letrasBW, letrasTarget);
+    %% Carregar a rede neuronal
+    net = load('net.mat', 'net').net;
 
     %% Simular e analisar resultados
     out = sim(net, letrasBW);
@@ -88,13 +80,6 @@ function [bestP,epochs,accuracy] = pointA()
     end
     
     accuracy = r/size(out,2);
-    fprintf('\nPrecisao total de treino %f\n', accuracy)
-    fprintf('Epoch: %d\n',tr.num_epochs)
-    fprintf('Stop: %s\n',tr.stop)
-    fprintf('Perf: \n')
-    tr.best_perf
-    bestP=tr.best_perf;
-    epochs=tr.num_epochs;
-    stop=tr.stop;
+    fprintf('Precisao total %f\n', accuracy)
 
 end
