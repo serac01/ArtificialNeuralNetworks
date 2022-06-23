@@ -8,7 +8,7 @@ This application is for identifying the various types of geometric shapes (circl
 
 
  ## Preview
- ![imagem](https://camo.githubusercontent.com/07b9e1ed435711a50f51d40fa1a10885d7a7f6360280ce5f05357ebf3f7aba2e/68747470733a2f2f77616c6c70617065722e646f672f6c617267652f32303334323537312e6a7067)
+![Application](https://user-images.githubusercontent.com/82268859/175390906-ffeca577-a4af-41a8-bfb1-166357166425.png)
 
 
  ## Details
