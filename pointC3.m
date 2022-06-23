@@ -1,23 +1,23 @@
-function [accuracy, accuracy1, accuracy2, accuracy3] = pointC2()
+function [accuracy, accuracy1, accuracy2, accuracy3] = pointC3()
     clc;
     clear all;
     close all;
-
-    %Inicializar as variaveis
     IMG_RES = [25 25];
-    figurasBW = zeros(IMG_RES(1) * IMG_RES(2), 10*6);
+
+    %% Inicializar as variaveis para a pasta Test
+    figurasBW1 = zeros(IMG_RES(1) * IMG_RES(2), 10*6);
     counter=1;
     nImages=10;
-    figurasTarget = zeros(6,10*6);
+    figurasTarget1 = zeros(6,10*6);
     
-    %% Ler e redimensionar as imagens e preparar os targets
+    %Ler e redimensionar as imagens e preparar os targets
     %circle
     for i=0:nImages-1
         img = imread(sprintf('images\\test\\circle\\circle-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
-        figurasBW(:, counter+i) = reshape(binarizedImg, 1, []);
-        figurasTarget(1,counter+i) =  1;
+        figurasBW1(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget1(1,counter+i) =  1;
     end
     counter=counter+nImages;
     %kite
@@ -25,8 +25,8 @@ function [accuracy, accuracy1, accuracy2, accuracy3] = pointC2()
         img = imread(sprintf('images\\test\\kite\\kite-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
-        figurasBW(:, counter+i) = reshape(binarizedImg, 1, []);
-        figurasTarget(2,counter+i) =  1;
+        figurasBW1(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget1(2,counter+i) =  1;
     end
     counter=counter+nImages;
     %parallelogram
@@ -34,8 +34,8 @@ function [accuracy, accuracy1, accuracy2, accuracy3] = pointC2()
         img = imread(sprintf('images\\test\\parallelogram\\parallelogram-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
-        figurasBW(:, counter+i) = reshape(binarizedImg, 1, []);
-        figurasTarget(3,counter+i) =  1;
+        figurasBW1(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget1(3,counter+i) =  1;
     end
     counter=counter+nImages;
     %square
@@ -43,8 +43,8 @@ function [accuracy, accuracy1, accuracy2, accuracy3] = pointC2()
         img = imread(sprintf('images\\test\\square\\square-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
-        figurasBW(:, counter+i) = reshape(binarizedImg, 1, []);
-        figurasTarget(4,counter+i) =  1;
+        figurasBW1(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget1(4,counter+i) =  1;
     end
     counter=counter+nImages;
     %trapezoid
@@ -52,8 +52,8 @@ function [accuracy, accuracy1, accuracy2, accuracy3] = pointC2()
         img = imread(sprintf('images\\test\\trapezoid\\trapezoid-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
-        figurasBW(:, counter+i) = reshape(binarizedImg, 1, []);
-        figurasTarget(5,counter+i) =  1;
+        figurasBW1(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget1(5,counter+i) =  1;
     end
     counter=counter+nImages;
     %triangle
@@ -61,9 +61,134 @@ function [accuracy, accuracy1, accuracy2, accuracy3] = pointC2()
         img = imread(sprintf('images\\test\\triangle\\triangle-test-%d.png', i));
         img = imresize(img, IMG_RES);
         binarizedImg = im2bw(img);
-        figurasBW(:, counter+i) = reshape(binarizedImg, 1, []);
-        figurasTarget(6,counter+i) =  1;
+        figurasBW1(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget1(6,counter+i) =  1;
     end
+    %% Inicializar as variaveis para a pasta Train
+    figurasBW2 = zeros(IMG_RES(1) * IMG_RES(2), 50*6);
+    counter=1;
+    nImages=50;
+    figurasTarget2 = zeros(6,50*6);
+    
+    %Ler e redimensionar as imagens e preparar os targets
+    %circle
+    for i=0:nImages-1
+        img = imread(sprintf('images\\train\\circle\\circle-train-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW2(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget2(1,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %kite
+    for i=0:nImages-1
+        img = imread(sprintf('images\\train\\kite\\kite-train-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW2(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget2(2,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %parallelogram
+    for i=0:nImages-1
+        img = imread(sprintf('images\\train\\parallelogram\\parallelogram-train-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW2(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget2(3,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %square
+    for i=0:nImages-1
+        img = imread(sprintf('images\\train\\square\\square-train-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW2(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget2(4,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %trapezoid
+    for i=0:nImages-1
+        img = imread(sprintf('images\\train\\trapezoid\\trapezoid-train-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW2(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget2(5,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %triangle
+    for i=0:nImages-1
+        img = imread(sprintf('images\\train\\triangle\\triangle-train-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW2(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget2(6,counter+i) =  1;
+    end
+    
+    %% Inicializar as variaveis para a pasta Start
+    figurasBW3 = zeros(IMG_RES(1) * IMG_RES(2), 30);
+    counter=1;
+    nImages=5;
+    figurasTarget3 = zeros(6,30);
+    
+    %Ler e redimensionar as imagens e preparar os targets
+    %circle
+    for i=0:nImages-1
+        img = imread(sprintf('images\\start\\circle\\circle-start-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW3(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget3(1,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %kite
+    for i=0:nImages-1
+        img = imread(sprintf('images\\start\\kite\\kite-start-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW3(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget3(2,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %parallelogram
+    for i=0:nImages-1
+        img = imread(sprintf('images\\start\\parallelogram\\parallelogram-start-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW3(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget3(3,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %square
+    for i=0:nImages-1
+        img = imread(sprintf('images\\start\\square\\square-start-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW3(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget3(4,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %trapezoid
+    for i=0:nImages-1
+        img = imread(sprintf('images\\start\\trapezoid\\trapezoid-start-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW3(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget3(5,counter+i) =  1;
+    end
+    counter=counter+nImages;
+    %triangle
+    for i=0:nImages-1
+        img = imread(sprintf('images\\start\\triangle\\triangle-start-%d.png', i));
+        img = imresize(img, IMG_RES);
+        binarizedImg = im2bw(img);
+        figurasBW3(:, counter+i) = reshape(binarizedImg, 1, []);
+        figurasTarget3(6,counter+i) =  1;
+    end
+    
+    %% Juntar os inputs e imagens
+    figurasBW = [figurasBW1 figurasBW2 figurasBW3];
+    figurasTarget = [figurasTarget1 figurasTarget2 figurasTarget3];
     
     %% Treinar a rede neuronal
     net = feedforwardnet(10);
@@ -90,7 +215,7 @@ function [accuracy, accuracy1, accuracy2, accuracy3] = pointC2()
 
     accuracy = r/size(out,2);
     fprintf('Precisao total de treino %f\n', accuracy)
-
+    
     %% Testar rede com pasta start
     figurasBW = zeros(IMG_RES(1) * IMG_RES(2), 30);
     counter=1;
